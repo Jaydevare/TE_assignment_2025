@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TE_assignment_2025.Model.Project>
+@{
+    ViewData["Title"] = "Projects";
+    var search = ViewBag.Search as string ?? "";
+}
+<h2>Projects</h2>
+
+<div class="row mb-3">
+    <div class="col-md-4">
+        <a class="btn btn-primary" href="@Url.Action("Create")">Add Project</a>
+    </div>
+    <div class="col-md-4 offset-md-4">
+        <form method="get" class="d-flex">
+            <input name="search" value="@search" class="form-control" placeholder="Search..." />
+            <button class="btn btn-outline-secondary ms-2">Search</button>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead class="table-primary">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Skills</th>
+            <th>Members</th>
+            <th>Active</th>
+            <th>Created</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td>@p.Description</td>
+                <td>
+                    @foreach (var ps in p.ProjectSkills)
+                    {
+                        <span class="badge bg-info text-dark me-1">@ps.skills?.SkillName</span>
+                    }
+                </td>
+                <td>@p.NoOfMembers</td>
+                <td>@(p.isActive ? "Yes" : "No")</td>
+                <td>@p.CreatedAt.ToLocalTime().ToString("dd-MM-yyyy hh:mm tt")</td>
+                <td>
+                    <a class="me-2" href="@Url.Action("Edit", new { id = p.Id })">Edit</a>
+                    <a class="me-2" href="@Url.Action("Details", new { id = p.Id })">Details</a>
+                    <form method="post" action="@Url.Action("Delete")" style="display:inline" onsubmit="return confirm('Delete this project?');">
+                        <input type="hidden" name="id" value="@p.Id" />
+                        <button class="btn btn-link p-0">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

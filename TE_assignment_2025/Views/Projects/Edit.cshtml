@@ -1,0 +1,45 @@
+﻿@model TE_assignment_2025.Model.Project
+@{
+    ViewData["Title"] = "Edit Project";
+    var skills = ViewBag.AllSkills as List<TE_assignment_2025.Model.Skills> ?? new();
+    ViewBag.InputName = "selectedSkills";
+    ViewBag.SelectedSkillIds = ViewBag.SelectedSkillIds ?? Array.Empty<int>();
+}
+<h2>Edit Project</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    @Html.Partial("_SkillCheckboxList", skills)
+
+    <div class="mb-3">
+        <label asp-for="NoOfMembers" class="form-label"></label>
+        <input asp-for="NoOfMembers" class="form-control" type="number" min="1" />
+        <span asp-validation-for="NoOfMembers" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="isActive" class="form-check-input" />
+        <label asp-for="isActive" class="form-check-label"></label>
+    </div>
+
+    <button class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary" href="@Url.Action("Index")">Back</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

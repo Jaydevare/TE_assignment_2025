@@ -1,0 +1,19 @@
+﻿@model TE_assignment_2025.Model.Project
+<h2>Project Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <p>@Model.Description</p>
+    <p>
+        <strong>Skills:</strong>
+        @foreach (var ps in Model.ProjectSkills)
+        {
+            <span class="badge bg-info text-dark me-1">@ps.skills?.SkillName</span>
+        }
+    </p>
+    <p><strong>Members:</strong> @Model.NoOfMembers</p>
+    <p><strong>Active:</strong> @(Model.isActive ? "Yes" : "No")</p>
+    <p><strong>Created:</strong> @Model.CreatedAt.ToLocalTime().ToString("dd-MM-yyyy hh:mm tt")</p>
+</div>
+
+<a class="btn btn-secondary" href="@Url.Action("Index")">Back</a>
